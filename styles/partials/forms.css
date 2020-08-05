@@ -43,3 +43,8 @@
     left: 1.6rem;
     bottom: 0;
 }
+
+.textarea-block:focus-within::after {
+    content: "";
+    bottom: 0.7rem;
+}
