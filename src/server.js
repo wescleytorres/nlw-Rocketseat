@@ -51,17 +51,41 @@ const weekdays = [
 
 //FUNCIONALIDADES
 
+function getSubject(subjectNumber) {
+    const position = +subjectNumber - 1
+    return subjects[position]
+}
+
 // REQUIRE vai pegar a função EXPRESS, vai chamar "/" e retornar a resposta.
 function pageLanding(req, res) {
     return res.render("index.html")
 }
+
 function pageStudy(req, res) {
     const filters = req.query
     return res.render("study.html", {proffys, filters, subjects, weekdays})
 }
 
 function pageGiveClasses(req, res) {
-    return res.render("give-classes.html")
+    const data = req.query
+
+    // se isNotEmpty tiver dados
+    const isNotEmpty = Object.keys(data).length > 0
+
+    if (isNotEmpty) {
+
+        data.subject = getSubject(data.subject)
+        
+        //adicionar dados a lista de proffys
+        proffys.push(data)
+
+        // ao entrar na condição, redireciona para study
+        return res.redirect("/study")
+        
+    }
+
+    // se nao, mostrar a página
+    return res.render("give-classes.html", {subjects, weekdays})
 }
 
 
